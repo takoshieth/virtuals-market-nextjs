@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { pickAddress } from '@/lib/utils'
+import { pickAddress } from '/lib/utils'
 
 const TTL = 60_000
 let cache: any = null
