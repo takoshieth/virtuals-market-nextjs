@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { fetchJson } from '@/lib/utils'
+import { fetchJson } from '/lib/utils'
 
 const VIRTUALS_URL = 'https://api2.virtuals.io/api/virtuals'
 let cache: any = null
