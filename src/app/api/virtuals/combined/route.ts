@@ -10,10 +10,16 @@ export async function GET() {
   if (cache && (now - at) < TTL) return NextResponse.json(cache)
 
   try {
+    // ✅ localhost yerine dinamik origin kullan
+    const origin = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000'
+
     const [listRes, priceRes] = await Promise.all([
-      fetch('http://localhost:3000/api/virtuals', { headers: { 'accept': 'application/json' } }),
-      fetch('http://localhost:3000/api/virtuals/prices', { headers: { 'accept': 'application/json' } })
+      fetch(`${origin}/api/virtuals`, { headers: { 'accept': 'application/json' } }),
+      fetch(`${origin}/api/virtuals/prices`, { headers: { 'accept': 'application/json' } })
     ])
+
     const listJson = await listRes.json()
     const priceJson = await priceRes.json()
 
