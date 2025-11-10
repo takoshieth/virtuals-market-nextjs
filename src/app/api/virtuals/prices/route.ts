@@ -9,7 +9,6 @@ let ts = 0
 async function priceFor(address: string) {
   try {
     const j = await fetchJson(DEX_BASE + address)
-    // pick first pair if exists
     const p = j?.pairs?.[0]
     return {
       priceUsd: p?.priceUsd ? Number(p.priceUsd) : null,
@@ -28,14 +27,17 @@ export async function GET() {
   if (cache && (now - ts) < TTL) return NextResponse.json(cache)
 
   try {
-    // Get list first
-    const listRes = await fetch('http://localhost:3000/api/virtuals', { headers: { 'accept': 'application/json' } })
+    // ✅ localhost yerine dinamik origin kullan
+    const origin = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000'
+
+    const listRes = await fetch(`${origin}/api/virtuals`, { headers: { 'accept': 'application/json' } })
     const listJson = await listRes.json()
     const items = listJson?.data ?? []
 
-    // Build unique addresses
     const entries = items.map((t:any) => ({ t, addr: pickAddress(t) })).filter(x => !!x.addr)
-    // batch in chunks to avoid overwhelming (but dex api is per-address anyway)
+
     const results = await Promise.all(entries.map(async ({t, addr}) => {
       const m = await priceFor(addr as string)
       return {
