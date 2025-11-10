@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { fetchJson, pickAddress } from '@/lib/utils'
+import { fetchJson, pickAddress } from '/lib/utils'
 
 const DEX_BASE = 'https://api.dexscreener.com/latest/dex/tokens/'
 const TTL = 60_000
