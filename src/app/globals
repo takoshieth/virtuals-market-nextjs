@@ -1,0 +1,7 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+:root{color-scheme:dark;}
+body{ @apply bg-neutral-950 text-neutral-100; }
+table{ @apply w-full; }
+th,td{ @apply px-3 py-2; }
+thead th{ @apply text-xs uppercase tracking-wide text-neutral-400; }
+tbody tr{ @apply border-b border-neutral-800; }
